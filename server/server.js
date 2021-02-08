@@ -40,6 +40,19 @@ app.get('/listOfJokes', (req, res) => {
   res.send(jokes);
 });
 
+/*
+* POST Structure
+
+{
+  new_joke: {
+    "whoseJoke": "Patrick",
+    "jokeQuestion": "lorem ipsum",
+    "punchLine": "lorem ipsum"
+  }
+}
+
+*/
+
 // POST to get a new joke
 app.post('/incomingJoke', (req, res) => {
   let newJoke = req.body.new_joke;
