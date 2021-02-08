@@ -4,10 +4,13 @@ $(document).ready(onReady);
 
 function onReady() {
   console.log('DOM ready');
+  // If there are any jokes in the server on load, append them to DOM
   getJokes();
+  // listen for a click on the button
   $(document).on('click', '#addJokeButton', onAddJoke);
 }
 
+// get the 'jokes' array from the server
 function getJokes() {
   $.ajax({
     type: 'GET',
@@ -26,40 +29,53 @@ function appendListOfJokes(array) {
   // loop through incoming array and append jokes to DOM
   for (let joke of array) {
     $('#outputDiv').append(`
+    <div class="joke">
     <h3>${joke.jokeQuestion}</h3>
     <p>${joke.punchLine}</p>
-    <p class="jokeAuthor">By: ${joke.whoseJoke}`);
+    <p class="jokeAuthor">By: ${joke.whoseJoke}
+    </div>`);
   }
 }
 
 function onAddJoke() {
   // console.log('onAddJoke');
-  // grab the inputs, put them in an object
-  let newJoke = {
-    whoseJoke: $('#whoseJokeIn').val(),
-    jokeQuestion: $('#questionIn').val(),
-    punchLine: $('#punchlineIn').val(),
-  };
-  console.log('New Joke:', newJoke);
-
-  function postNewJoke() {
-    $.ajax({
-      type: 'POST',
-      url: '/incomingJoke',
-      data: {
-        new_joke: newJoke,
-      },
-    })
-      .then(function (response) {
-        console.log('Successful POST', response);
-      })
-      .catch(function (error) {
-        console.log('ERROR:', error);
-      });
+  // grab the inputs
+  let whoseJoke = $('#whoseJokeIn').val();
+  let jokeQuestion = $('#questionIn').val();
+  let punchLine = $('#punchlineIn').val();
+  // if any inputs are blank, show an alert
+  if (whoseJoke === '' || jokeQuestion === '' || punchLine === '') {
+    alert('Need ALL inputs, please!');
   }
-  // call the POST function to send the newJoke object to the server
-  postNewJoke();
-  // get the updated array from the server
-  // this will also append the new joke to the DOM
-  getJokes();
+  // if all inputs are filled in
+  // define a newJoke object...
+  else {
+    let newJoke = {
+      whoseJoke: whoseJoke,
+      jokeQuestion: jokeQuestion,
+      punchLine: punchLine,
+    };
+    console.log('New Joke:', newJoke);
+    // ...and POST that object to the server
+    function postNewJoke() {
+      $.ajax({
+        type: 'POST',
+        url: '/incomingJoke',
+        data: {
+          new_joke: newJoke,
+        },
+      })
+        .then(function (response) {
+          console.log('Successful POST', response);
+        })
+        .catch(function (error) {
+          console.log('ERROR:', error);
+        });
+    }
+    // call the POST function to send the newJoke object to the server
+    postNewJoke();
+    // get the updated array from the server
+    // this will also append the new joke to the DOM
+    getJokes();
+  }
 }
