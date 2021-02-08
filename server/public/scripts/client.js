@@ -20,6 +20,8 @@ function getJokes() {
 }
 
 function appendListOfJokes(array) {
+  // clear anything that's already in the DOM
+  $('#outputDiv').empty();
   // console.log('in appendListOfJokes', array);
   // loop through incoming array and append jokes to DOM
   for (let joke of array) {
@@ -55,5 +57,9 @@ function onAddJoke() {
         console.log('ERROR:', error);
       });
   }
+  // call the POST function to send the newJoke object to the server
   postNewJoke();
+  // get the updated array from the server
+  // this will also append the new joke to the DOM
+  getJokes();
 }

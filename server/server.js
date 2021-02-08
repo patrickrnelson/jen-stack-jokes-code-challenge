@@ -45,6 +45,7 @@ app.post('/incomingJoke', (req, res) => {
   let newJoke = req.body.new_joke;
   //push the newJoke to the array
   jokes.push(newJoke);
+  console.log('Jokes Array:', jokes);
   res.sendStatus(200);
 });
 
