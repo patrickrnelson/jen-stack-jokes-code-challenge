@@ -3,8 +3,8 @@
 ### Front-end
 
 - [ ] Edit the HTML to handle jquery appending
-- [ ] Create ajax function to GET jokes
-- [ ] Append the existing jokes from the server to the DOM
+- [x] Create ajax function to GET jokes
+- [x] Append the existing jokes from the server to the DOM
 - [ ] Create ajax function to POST new jokes to the server array
 
 ### Server
