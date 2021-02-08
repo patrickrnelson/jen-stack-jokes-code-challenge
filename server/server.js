@@ -40,6 +40,14 @@ app.get('/listOfJokes', (req, res) => {
   res.send(jokes);
 });
 
+// POST to get a new joke
+app.post('/incomingJoke', (req, res) => {
+  let newJoke = req.body.new_joke;
+  //push the newJoke to the array
+  jokes.push(newJoke);
+  res.sendStatus(200);
+});
+
 // serve back static files
 app.use(express.static('server/public'));
 
